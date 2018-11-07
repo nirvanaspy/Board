@@ -38,9 +38,11 @@
 									    选择图标类型<i class="el-icon-arrow-down el-icon--right"></i>
 									  </span>
                   <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="lineMarker">曲线图</el-dropdown-item>
                     <el-dropdown-item command="line">折线图</el-dropdown-item>
                     <el-dropdown-item command="pie">饼图</el-dropdown-item>
-                    <el-dropdown-item command="text">text</el-dropdown-item>
+                    <el-dropdown-item command="bar">柱状图</el-dropdown-item>
+                    <el-dropdown-item command="reddar">雷达图</el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
               </el-col>
@@ -79,7 +81,11 @@
   import keyboard from '@/components/Charts/keyboard'
   import lineMarker from '@/components/Charts/lineMarker'
   import mixChart from '@/components/Charts/mixChart'
-  import index from "../../router";
+  import pieChart from '../../views/charts/PieChart'
+  import barChart from '../../views/charts/BarChart'
+  import reddarChart from '../../views/charts/RaddarChart'
+  import lineChart from '../../views/charts/lineChart'
+  // import index from "../../router";
   /*import keyboard from '../../views/charts/line'
   import lineMarker from '../../views/charts/line'
   import mixChart from '../../views/charts/mixChart'*/
@@ -89,11 +95,15 @@
   export default {
     name: 'myGridLayout',
     components: {
+      GridLayout,
+      GridItem,
       keyboard,
       lineMarker,
       mixChart,
-      GridLayout,
-      GridItem,
+      pieChart,
+      barChart,
+      reddarChart,
+      lineChart
     },
     data() {
       return {
@@ -190,20 +200,30 @@
       // 选择图标种类
       handleCommand(item, index, event) {
         console.log(event)
+        if (event === 'lineMarker') {
+          item.componentType = 'lineMarker'
+          item.component = 'lineMarker'
+          item.componentId = 'lineMarker' + index
+        }
         if(event === 'line') {
           item.componentType = 'line'
-          item.component = 'lineMarker'
-          item.componentId = 'line' + index
+          item.component = 'lineChart'
+          item.componentId = 'lineChart' + index
         }
         if (event === 'pie') {
-          item.componentType = 'keyboard'
-          item.component = 'keyboard'
-          item.componentId = 'keyboard' + index
+          item.componentType = 'pieChart'
+          item.component = 'pieChart'
+          item.componentId = 'pieChart' + index
         }
-        if (event === 'text') {
-          item.componentType = 'text'
-          item.component = 'mixChart'
-          item.componentId = 'text' + index
+        if (event === 'bar') {
+          item.componentType = 'barChart'
+          item.component = 'barChart'
+          item.componentId = 'barChart' + index
+        }
+        if (event === 'reddar') {
+          item.componentType = 'reddarChart'
+          item.component = 'reddarChart'
+          item.componentId = 'reddarChart' + index
         }
         console.log(this.layout)
       },
