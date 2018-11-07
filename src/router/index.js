@@ -387,5 +387,10 @@ export const asyncRouterMap = [
     component: Layout,
     hidden: true,
     children: [{ path: 'componentHistory/:id', component: _import('componentHistory/index'), name: 'componentHistory', meta: { title: 'componentHistory', icon: 'table', noCache: true }}]
+  },
+  {
+    path: '/gridLayout',
+    component: Layout,
+    children: [{ path: 'gridLayout', component: _import('gridLayout/gridLayout'), name: 'gridLayout', meta: { title: 'gridLayout', icon: 'table', noCache: true }}]
   }
 ]

@@ -15,15 +15,17 @@ export default {
     },
     id: {
       type: String,
-      default: 'chart'
+      default: 'chart3'
     },
     width: {
       type: String,
-      default: '200px'
+      default: '100%'
+      // default: '200px'
     },
     height: {
       type: String,
-      default: '200px'
+      default: '100%'
+      // default: '200px'
     }
   },
   data() {
