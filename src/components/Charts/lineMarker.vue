@@ -15,15 +15,17 @@ export default {
     },
     id: {
       type: String,
-      default: 'chart'
+      default: 'chart2'
     },
     width: {
       type: String,
-      default: '200px'
+      default: '100%'
+      // default: '200px'
     },
     height: {
       type: String,
-      default: '200px'
+      default: '100%'
+      // default: '200px'
     }
   },
   data() {
@@ -33,6 +35,7 @@ export default {
   },
   mounted() {
     this.initChart()
+    this.chart.resize()
   },
   beforeDestroy() {
     if (!this.chart) {
