@@ -387,5 +387,25 @@ export const asyncRouterMap = [
     component: Layout,
     hidden: true,
     children: [{ path: 'componentHistory/:id', component: _import('componentHistory/index'), name: 'componentHistory', meta: { title: 'componentHistory', icon: 'table', noCache: true }}]
+  },
+  {
+    path: '/classify',
+    component: Layout,
+    children: [{ path: 'index', component: _import('boardCharts/classify'), name: 'classify', meta: { title: '柱状图', icon: 'components1' }}]
+  },
+  {
+    path: '/pie',
+    component: Layout,
+    children: [{ path: 'index', component: _import('boardCharts/pie'), name: 'pie', meta: { title: '饼图', icon: 'components1' }}]
+  },
+  {
+    path: '/lineChart',
+    component: Layout,
+    children: [{ path: 'index', component: _import('boardCharts/lineChart'), name: 'lineChart', meta: { title: 'lineChart', icon: 'components1' }}]
+  },
+  {
+    path: '/mixChart',
+    component: Layout,
+    children: [{ path: 'index', component: _import('boardCharts/mixChart'), name: 'mixChart', meta: { title: 'mixChart', icon: 'components1' }}]
   }
 ]
