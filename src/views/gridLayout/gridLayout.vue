@@ -255,6 +255,10 @@
     border: 1px solid #ddd;
     border-radius: 6px;
   }
+  .drag-title .el-dropdown {
+    float: right;
+    cursor: pointer;
+  }
   /*.drag-title {
     margin-top: 20px;
   }*/
