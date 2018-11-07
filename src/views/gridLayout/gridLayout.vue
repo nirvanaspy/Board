@@ -1,7 +1,7 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
-      <el-button class="filter-item" style="margin-left: 10px;float:right;" @click="selectLayoutType" type="primary"
+      <el-button class="filter-item" style="margin-right: 10px;float:right;" @click="selectLayoutType" type="primary"
                  icon="">选择布局
       </el-button>
     </div>
