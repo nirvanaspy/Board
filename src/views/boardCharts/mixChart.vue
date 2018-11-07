@@ -21,7 +21,6 @@
         // 基于准备好的dom，初始化echarts实例
         let myChart = echarts.init(document.getElementById('mixChart'), 'dark');
 
-        app.title = '折柱混合';
         let option = {
           tooltip: {
             trigger: 'axis',

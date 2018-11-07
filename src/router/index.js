@@ -407,5 +407,15 @@ export const asyncRouterMap = [
     path: '/mixChart',
     component: Layout,
     children: [{ path: 'index', component: _import('boardCharts/mixChart'), name: 'mixChart', meta: { title: 'mixChart', icon: 'components1' }}]
+  },
+  {
+    path: '/plantTitle',
+    component: Layout,
+    children: [{ path: 'index', component: _import('caption/plantTitle'), name: 'plantTitle', meta: { title: '标题1', icon: 'components1' }}]
+  },
+  {
+    path: '/plantTitle2',
+    component: Layout,
+    children: [{ path: 'index', component: _import('caption/plantTitle2'), name: 'plantTitle2', meta: { title: '标题2', icon: 'components1' }}]
   }
 ]
