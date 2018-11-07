@@ -32,10 +32,10 @@
                      class="griditem">
             <el-row class="drag-title">
               <!--<el-col :span="12">新增人员过滤器{   过滤器：所有人，频率：每天   }</el-col>-->
-              <el-col :span="24" class="ico" style="height: 24px;line-height: 24px;">
+              <el-col :span="24" class="ico">
                 <el-dropdown trigger="click" @command="handleCommand(item, index, $event)">
 									  <span class="el-dropdown-link">
-									    选择图标类型<i class="el-icon-arrow-down el-icon--right"></i>
+									    <strong>选择图标类型</strong><i class="el-icon-arrow-down el-icon--right"></i>
 									  </span>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command="lineMarker">曲线图</el-dropdown-item>
@@ -290,20 +290,33 @@
     cursor: pointer;
   }
   .drag-content {
-    height: calc(100% - 24px);
-    background-color: rgba(64,158,255,0.3);
+    height: calc(100% - 30px);
+    /*background-color: rgba(64,158,255,0.3);*/
   }
   .drag-content .el-col{
     height: 100%;
   }
   .griditem {
-    padding: 3px;
+    /*padding: 3px;*/
     border: 1px solid #ddd;
     border-radius: 6px;
+    box-shadow: rgb(140, 140, 140) 0.2em 0.2em 0.5em;
+    /*box-shadow: rgb(102, 102, 102) 0.2em 0.2em 0.5em;*/
   }
   .drag-title .el-dropdown {
     float: right;
+    margin-right: 10px;
     cursor: pointer;
+  }
+  .drag-title .ico {
+    height: 30px;
+    line-height: 30px;
+    background-color: rgba(64,158,255,0.6);
+    border-radius:3px 3px 0 0;
+  }
+  .drag-title .el-dropdown-link {
+    /*color: #fff;*/
+    color: #777;
   }
   /*.drag-title {
     margin-top: 20px;
