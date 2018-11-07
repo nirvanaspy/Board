@@ -389,6 +389,36 @@ export const asyncRouterMap = [
     children: [{ path: 'componentHistory/:id', component: _import('componentHistory/index'), name: 'componentHistory', meta: { title: 'componentHistory', icon: 'table', noCache: true }}]
   },
   {
+    path: '/classify',
+    component: Layout,
+    children: [{ path: 'index', component: _import('boardCharts/classify'), name: 'classify', meta: { title: '柱状图', icon: 'components1' }}]
+  },
+  {
+    path: '/pie',
+    component: Layout,
+    children: [{ path: 'index', component: _import('boardCharts/pie'), name: 'pie', meta: { title: '饼图', icon: 'components1' }}]
+  },
+  {
+    path: '/lineChart',
+    component: Layout,
+    children: [{ path: 'index', component: _import('boardCharts/lineChart'), name: 'lineChart', meta: { title: 'lineChart', icon: 'components1' }}]
+  },
+  {
+    path: '/mixChart',
+    component: Layout,
+    children: [{ path: 'index', component: _import('boardCharts/mixChart'), name: 'mixChart', meta: { title: 'mixChart', icon: 'components1' }}]
+  },
+  {
+    path: '/plantTitle',
+    component: Layout,
+    children: [{ path: 'index', component: _import('caption/plantTitle'), name: 'plantTitle', meta: { title: '标题1', icon: 'components1' }}]
+  },
+  {
+    path: '/plantTitle2',
+    component: Layout,
+    children: [{ path: 'index', component: _import('caption/plantTitle2'), name: 'plantTitle2', meta: { title: '标题2', icon: 'components1' }}]
+  },
+  {
     path: '/gridLayout',
     component: Layout,
     children: [{ path: 'gridLayout', component: _import('gridLayout/gridLayout'), name: 'gridLayout', meta: { title: 'gridLayout', icon: 'table', noCache: true }}]
