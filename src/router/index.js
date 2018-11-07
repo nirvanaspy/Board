@@ -401,12 +401,12 @@ export const asyncRouterMap = [
   {
     path: '/lineChart',
     component: Layout,
-    children: [{ path: 'index', component: _import('boardCharts/lineChart'), name: 'lineChart', meta: { title: 'lineChart', icon: 'components1' }}]
+    children: [{ path: 'index', component: _import('boardCharts/originLineChart'), name: 'lineChart', meta: { title: 'lineChart', icon: 'components1' }}]
   },
   {
     path: '/mixChart',
     component: Layout,
-    children: [{ path: 'index', component: _import('boardCharts/mixChart'), name: 'mixChart', meta: { title: 'mixChart', icon: 'components1' }}]
+    children: [{ path: 'index', component: _import('boardCharts/originMixChart'), name: 'mixChart', meta: { title: 'mixChart', icon: 'components1' }}]
   },
   {
     path: '/plantTitle',
@@ -422,5 +422,10 @@ export const asyncRouterMap = [
     path: '/gridLayout',
     component: Layout,
     children: [{ path: 'gridLayout', component: _import('gridLayout/gridLayout'), name: 'gridLayout', meta: { title: 'gridLayout', icon: 'table', noCache: true }}]
+  },
+  {
+    path: '/boardManage',
+    component: Layout,
+    children: [{ path: 'boardManage', component: _import('boardManage/boardManage'), name: 'boardManage', meta: { title: '看板管理', icon: 'table', noCache: true }}]
   }
 ]

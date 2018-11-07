@@ -43,6 +43,9 @@
                     <el-dropdown-item command="pie">饼图</el-dropdown-item>
                     <el-dropdown-item command="bar">柱状图</el-dropdown-item>
                     <el-dropdown-item command="reddar">雷达图</el-dropdown-item>
+                    <el-dropdown-item command="mixed">混合图</el-dropdown-item>
+                    <el-dropdown-item command="workshopTitle">车间标题</el-dropdown-item>
+                    <el-dropdown-item command="caption">车间产量</el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
               </el-col>
@@ -81,10 +84,15 @@
   import keyboard from '@/components/Charts/keyboard'
   import lineMarker from '@/components/Charts/lineMarker'
   import mixChart from '@/components/Charts/mixChart'
-  import pieChart from '../../views/charts/PieChart'
-  import barChart from '../../views/charts/BarChart'
-  import reddarChart from '../../views/charts/RaddarChart'
-  import lineChart from '../../views/charts/lineChart'
+  import pieChart from '@/views/charts/PieChart'
+  import barChart from '@/views/charts/BarChart'
+  import reddarChart from '@/views/charts/RaddarChart'
+  import lineChart from '@/views/charts/LineChart'
+  import mixedChart from '@/views/boardCharts/originMixChart'
+  import workshopTitle from '@/views/caption/plantTitle'
+  import captionChart from '@/views/caption/plantTitle2'
+  // import workshopTitle from '@/views/caption/planTitle'
+  // import captionChart from '@/views/caption/planTitle2'
   // import index from "../../router";
   /*import keyboard from '../../views/charts/line'
   import lineMarker from '../../views/charts/line'
@@ -103,7 +111,10 @@
       pieChart,
       barChart,
       reddarChart,
-      lineChart
+      lineChart,
+      mixedChart,
+      workshopTitle,
+      captionChart
     },
     data() {
       return {
@@ -197,7 +208,7 @@
         this.layoutDialogVisible = false;
       },
 
-      // 选择图标种类
+      // 选择图表种类
       handleCommand(item, index, event) {
         console.log(event)
         if (event === 'lineMarker') {
@@ -224,6 +235,21 @@
           item.componentType = 'reddarChart'
           item.component = 'reddarChart'
           item.componentId = 'reddarChart' + index
+        }
+        if (event === 'mixed') {
+          item.componentType = 'mixedChart'
+          item.component = 'mixedChart'
+          item.componentId = 'mixedChart' + index
+        }
+        if (event === 'workshopTitle') {
+          item.componentType = 'workshopTitle'
+          item.component = 'workshopTitle'
+          item.componentId = 'workshopTitle' + index
+        }
+        if (event === 'caption') {
+          item.componentType = 'captionChart'
+          item.component = 'captionChart'
+          item.componentId = 'captionChart' + index
         }
         console.log(this.layout)
       },

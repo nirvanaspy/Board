@@ -1,5 +1,5 @@
 <template>
-  <div id="mixChart" style="width: 700px;height:400px;"></div>
+  <div :id="id" :style={width:width,height:height}></div>
 </template>
 
 <script>
@@ -8,6 +8,31 @@
 
   export default {
     name: "mix-chart",
+    props: {
+      id: {
+        type: String,
+        default: 'mixChart'
+      },
+      className: {
+        type: String,
+        default: 'chart'
+      },
+      width: {
+        type: String,
+        default: '100%'
+      },
+      height: {
+        type: String,
+        default: '100%'
+      },
+      autoResize: {
+        type: Boolean,
+        default: true
+      },
+      chartData: {
+        type: Object
+      }
+    },
     data() {
       return {
         chart: null
@@ -19,7 +44,7 @@
     methods: {
       initChart() {
         // 基于准备好的dom，初始化echarts实例
-        let myChart = echarts.init(document.getElementById('mixChart'), 'dark');
+        let myChart = echarts.init(document.getElementById(this.id), 'dark');
 
         let option = {
           tooltip: {
