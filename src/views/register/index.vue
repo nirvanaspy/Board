@@ -229,7 +229,7 @@
                 /*getUserId().then((res) => {
                   this.setCookie('userId', res.data.data.id)
                 })*/
-                this.$router.push({ path: '/projectManage' })
+                this.$router.push({ path: '/dashboard' })
               }).catch(() => {
                 this.loading = false
                 this.jumpLoading = false
