@@ -1,13 +1,16 @@
 <template>
   <div class="app-container calendar-list-container">
-    <div class="filter-container">
-      <el-button class="filter-item" style="margin-right: 10px;float:right;" @click="selectLayoutType" type="primary"
+    <div class="filter-container" style="height: 40px;">
+      <el-button class="filter-item" style="margin-right: 10px;float:right;" @click="selectLayoutType" type="success"
                  icon="">选择布局
+      </el-button>
+      <el-button class="filter-item" style="margin-right: 10px;float:right;" @click="saveLayout" type="primary"
+                 icon="">保存布局
       </el-button>
     </div>
 
     <!--布局容器-->
-    <div style="margin-top: 40px">
+    <div>
       <div class="component">
         <grid-layout
           :layout="layout"
@@ -91,12 +94,7 @@
   import mixedChart from '@/views/boardCharts/originMixChart'
   import workshopTitle from '@/views/caption/plantTitle'
   import captionChart from '@/views/caption/plantTitle2'
-  // import workshopTitle from '@/views/caption/planTitle'
-  // import captionChart from '@/views/caption/planTitle2'
-  // import index from "../../router";
-  /*import keyboard from '../../views/charts/line'
-  import lineMarker from '../../views/charts/line'
-  import mixChart from '../../views/charts/mixChart'*/
+  import { saveLayoutByBoard } from '@/api/board'
 
   var GridLayout = vueGridLayout.GridLayout;
   var GridItem = vueGridLayout.GridItem;
@@ -118,6 +116,7 @@
     },
     data() {
       return {
+        boardId: '',
         layoutDialogVisible: false,
         layouttype:"A",
         layout:[
@@ -134,6 +133,7 @@
       }
     },
     created() {
+      this.boardId = this.$route.params.id
     },
     mounted() {
       this.$nextTick(() => {
@@ -259,6 +259,23 @@
       movedEvent: function(i, newX, newY){
         console.log("MOVED i=" + i + ", X=" + newX + ", Y=" + newY);
       },
+      // 保存看板布局
+      saveLayout() {
+        /*let params = {
+          layoutDetails: this.layout
+        }
+        var qs = require('qs')
+        let dataPost = qs.stringify(params)*/
+        // let dataPost = JSON.stringify(this.layout)
+
+
+        let params = new URLSearchParams();
+        // params.append('layoutDetails',this.layout);
+        params.append('layoutDetails',JSON.stringify(this.layout));
+        saveLayoutByBoard(this.boardId, params).then((res) => {
+
+        })
+      }
     }
   }
 </script>

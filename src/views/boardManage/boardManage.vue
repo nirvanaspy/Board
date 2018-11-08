@@ -47,6 +47,9 @@
               <el-dropdown-item divided>
                 <span style="display:inline-block;padding:0 10px;" @click="handleDelete(scope.row)">删除</span>
               </el-dropdown-item>
+              <el-dropdown-item divided>
+                <span style="display:inline-block;padding:0 10px;" @click="handleLayout(scope.row)">看板布局</span>
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -352,7 +355,16 @@
             message: '已取消删除'
           })
         })
-      }
+      },
+      handleLayout(row) {
+        this.$router.push({
+          name: 'gridLayout',
+          params: {
+            name: row.name,
+            id: row.id
+          }
+        })
+      },
     },
     computed: {
       listA: function () {

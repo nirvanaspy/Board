@@ -421,7 +421,7 @@ export const asyncRouterMap = [
   {
     path: '/gridLayout',
     component: Layout,
-    children: [{ path: 'gridLayout', component: _import('gridLayout/gridLayout'), name: 'gridLayout', meta: { title: 'gridLayout', icon: 'table', noCache: true }}]
+    children: [{ path: 'gridLayout/:id', component: _import('gridLayout/gridLayout'), name: 'gridLayout', meta: { title: 'gridLayout', icon: 'table', noCache: true }}]
   },
   {
     path: '/boardManage',
