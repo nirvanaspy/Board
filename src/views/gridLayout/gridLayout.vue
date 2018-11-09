@@ -138,12 +138,18 @@
         // this.layout = res.data.data.layoutDetailEntities
         if(res.data.data.layoutDetailEntities) {
           let layoutData = res.data.data.layoutDetailEntities
+          this.layout = []
           layoutData.forEach((item, index) => {
+            let tempItem = Object.assign({}, item)
+            tempItem.component = ''
+            this.layout.push(tempItem)
             if(item.component.length > 0) {
               item.componentId = item.component + index
             }
           })
-          this.layout = layoutData
+          this.$nextTick(() => {
+            this.layout = layoutData
+          })
           this.$notify({
             title: '成功',
             message: '布局获取成功',
