@@ -94,7 +94,7 @@
   import mixedChart from '@/views/boardCharts/originMixChart'
   import workshopTitle from '@/views/caption/plantTitle'
   import captionChart from '@/views/caption/plantTitle2'
-  import { saveLayoutByBoard } from '@/api/board'
+  import { saveLayoutByBoard, getLayoutByBoard } from '@/api/board'
 
   var GridLayout = vueGridLayout.GridLayout;
   var GridItem = vueGridLayout.GridItem;
@@ -120,10 +120,10 @@
         layoutDialogVisible: false,
         layouttype:"A",
         layout:[
-          {"x":0,"y":0,"w":2,"h":5,"i":"A0"},
-          {"x":2,"y":0,"w":2,"h":5,"i":"A1"},
-          {"x":0,"y":5,"w":2,"h":5,"i":"A2"},
-          {"x":2,"y":5,"w":2,"h":5,"i":"A3"}
+          {"x":0,"y":0,"w":2,"h":5,"i":"B0",component:""},
+          {"x":2,"y":0,"w":2,"h":5,"i":"B1",component:""},
+          {"x":0,"y":5,"w":2,"h":5,"i":"B2",component:""},
+          {"x":2,"y":5,"w":2,"h":5,"i":"B3",component:""},
         ],
         layTable:[
           {id: 1, src: require("../../assets/images/布局1.png"), laytype: "type1"},
@@ -134,15 +134,37 @@
     },
     created() {
       this.boardId = this.$route.params.id
+      getLayoutByBoard(this.boardId).then((res) => {
+        // this.layout = res.data.data.layoutDetailEntities
+        if(res.data.data.layoutDetailEntities) {
+          let layoutData = res.data.data.layoutDetailEntities
+          layoutData.forEach((item, index) => {
+            if(item.component.length > 0) {
+              item.componentId = item.component + index
+            }
+          })
+          this.layout = layoutData
+          this.$notify({
+            title: '成功',
+            message: '布局获取成功',
+            type: 'success',
+            duration: 2000
+          })
+        }
+      })/*.catch(() => {
+        /!*this.$notify({
+          title: '失败',
+          message: '布局获取失败',
+          type: 'error',
+          duration: 2000
+        })*!/
+      })*/
+
     },
     mounted() {
       this.$nextTick(() => {
-        /*this.layout = [
-          {"x":0,"y":0,"w":2,"h":5,"i":"A0",component:"keyboard"},
-          {"x":2,"y":0,"w":2,"h":5,"i":"A1",component:"lineMarker"},
-          {"x":0,"y":5,"w":2,"h":5,"i":"A2",component:"mixChart"},
-          {"x":2,"y":5,"w":2,"h":5,"i":"A3",component:"mixChart"}
-        ]*/
+      })
+      /*this.$nextTick(() => {
         this.layout = [
           {"x":0,"y":0,"w":2,"h":2.5,"i":"A0",component:""},
           {"x":2,"y":0,"w":2,"h":2.5,"i":"A1",component:""},
@@ -157,7 +179,7 @@
           {"x":2,"y":7.5,"w":1,"h":2.5,"i":"A10",component:""},
           {"x":3,"y":7.5,"w":1,"h":2.5,"i":"A11",component:""}
         ]
-      })
+      })*/
     },
     methods: {
       selectLayoutType() {
@@ -168,44 +190,49 @@
       // 选择布局样式
       layView(item){/*选择layout*/
         this.layouttype= item.laytype;
-        if(item.laytype=="type1"){
-          /**
-           * @desc 关系处理
-           *  x 永远处于0
-           *  y 之前组件h之和
-           *  w 列数最大值(列数自由设置)
-           */
-          this.layout = [
-            {"x":0,"y":0,"w":2,"h":2.5,"i":"A0",component:""},
-            {"x":2,"y":0,"w":2,"h":2.5,"i":"A1",component:""},
-            {"x":0,"y":2.5,"w":2,"h":2.5,"i":"A2",component:""},
-            {"x":2,"y":2.5,"w":2,"h":2.5,"i":"A3",component:""},
-            {"x":0,"y":5,"w":1,"h":2.5,"i":"A4",component:""},
-            {"x":1,"y":5,"w":1,"h":2.5,"i":"A5",component:""},
-            {"x":2,"y":5,"w":1,"h":2.5,"i":"A6",component:""},
-            {"x":3,"y":5,"w":1,"h":2.5,"i":"A7",component:""},
-            {"x":0,"y":7.5,"w":1,"h":2.5,"i":"A8",component:""},
-            {"x":1,"y":7.5,"w":1,"h":2.5,"i":"A9",component:""},
-            {"x":2,"y":7.5,"w":1,"h":2.5,"i":"A10",component:""},
-            {"x":3,"y":7.5,"w":1,"h":2.5,"i":"A11",component:""}
-          ]
-        }else if(item.laytype=="type2"){
-          this.layout = [
-            {"x":0,"y":0,"w":2,"h":5,"i":"B0",component:""},
-            {"x":2,"y":0,"w":2,"h":5,"i":"B1",component:""},
-            {"x":0,"y":5,"w":2,"h":5,"i":"B2",component:""},
-            {"x":2,"y":5,"w":2,"h":5,"i":"B3",component:""},
-          ]
-        }else if(item.laytype=="type3"){
-          this.layout = [
-            {"x":0,"y":0,"w":1,"h":3,"i":"C0",component:""},
-            {"x":1,"y":0,"w":1,"h":3,"i":"C1",component:""},
-            {"x":2,"y":0,"w":1,"h":3,"i":"C2",component:""},
-            {"x":3,"y":0,"w":1,"h":3,"i":"C3",component:""},
-            {"x":0,"y":3,"w":4,"h":7,"i":"C4",component:""}
-          ]
-        }
-        this.layoutDialogVisible = false;
+        this.$confirm('确认选择当前布局吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          if(item.laytype=="type1"){
+            this.layout = [
+              {"x":0,"y":0,"w":2,"h":2.5,"i":"A0",component:""},
+              {"x":2,"y":0,"w":2,"h":2.5,"i":"A1",component:""},
+              {"x":0,"y":2.5,"w":2,"h":2.5,"i":"A2",component:""},
+              {"x":2,"y":2.5,"w":2,"h":2.5,"i":"A3",component:""},
+              {"x":0,"y":5,"w":1,"h":2.5,"i":"A4",component:""},
+              {"x":1,"y":5,"w":1,"h":2.5,"i":"A5",component:""},
+              {"x":2,"y":5,"w":1,"h":2.5,"i":"A6",component:""},
+              {"x":3,"y":5,"w":1,"h":2.5,"i":"A7",component:""},
+              {"x":0,"y":7.5,"w":1,"h":2.5,"i":"A8",component:""},
+              {"x":1,"y":7.5,"w":1,"h":2.5,"i":"A9",component:""},
+              {"x":2,"y":7.5,"w":1,"h":2.5,"i":"A10",component:""},
+              {"x":3,"y":7.5,"w":1,"h":2.5,"i":"A11",component:""}
+            ]
+          }else if(item.laytype=="type2"){
+            this.layout = [
+              {"x":0,"y":0,"w":2,"h":5,"i":"B0",component:""},
+              {"x":2,"y":0,"w":2,"h":5,"i":"B1",component:""},
+              {"x":0,"y":5,"w":2,"h":5,"i":"B2",component:""},
+              {"x":2,"y":5,"w":2,"h":5,"i":"B3",component:""},
+            ]
+          }else if(item.laytype=="type3"){
+            this.layout = [
+              {"x":0,"y":0,"w":1,"h":3,"i":"C0",component:""},
+              {"x":1,"y":0,"w":1,"h":3,"i":"C1",component:""},
+              {"x":2,"y":0,"w":1,"h":3,"i":"C2",component:""},
+              {"x":3,"y":0,"w":1,"h":3,"i":"C3",component:""},
+              {"x":0,"y":3,"w":4,"h":7,"i":"C4",component:""}
+            ]
+          }
+          this.layoutDialogVisible = false;
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消选择'
+          })
+        })
       },
 
       // 选择图表种类
@@ -261,19 +288,35 @@
       },
       // 保存看板布局
       saveLayout() {
-        /*let params = {
+        var qs = require('qs')
+        let params = {
+          // layoutDetails: JSON.stringify(this.layout)
           layoutDetails: this.layout
         }
-        var qs = require('qs')
-        let dataPost = qs.stringify(params)*/
-        // let dataPost = JSON.stringify(this.layout)
+        // let dataPost = qs.stringify(params)
+        let dataPost = JSON.stringify(this.layout)
 
 
-        let params = new URLSearchParams();
+        // let params = new URLSearchParams();
         // params.append('layoutDetails',this.layout);
-        params.append('layoutDetails',JSON.stringify(this.layout));
-        saveLayoutByBoard(this.boardId, params).then((res) => {
-
+        // params.append('layoutDetails',JSON.stringify(this.layout));
+        // let dataPost = qs.stringify({ 'layoutDetails': JSON.stringify(this.layout)}, { indices: false });
+        // let dataPost = qs.stringify({ 'layoutDetails': this.layout});
+        // let dataPost = qs.stringify({ 'layoutDetails': this.layout}, {arrayFormat: 'indices', allowDots: true})
+        saveLayoutByBoard(this.boardId, dataPost).then((res) => {
+          this.$notify({
+            title: '成功',
+            message: '布局保存成功',
+            type: 'success',
+            duration: 2000
+          })
+        }).catch(() => {
+          this.$notify({
+            title: '失败',
+            message: '布局保存失败',
+            type: 'error',
+            duration: 2000
+          })
         })
       }
     }
