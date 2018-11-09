@@ -38,10 +38,17 @@ export function deleteBoard(id) {
 export function saveLayoutByBoard(id, data) {
   return request({
     url: 'boards/' + id + '/layout',
-    /* headers: {
+    headers: {
       'content-type': 'application/json;charset=utf-8'
-    },*/
+    },
     method: 'post',
     data
+  })
+}
+
+export function getLayoutByBoard(id) {
+  return request({
+    url: 'boards/' + id + '/layout',
+    method: 'get'
   })
 }

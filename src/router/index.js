@@ -35,7 +35,7 @@ export const constantRouterMap = [
   { path: '/authredirect', component: _import('login/authredirect'), hidden: true },
   { path: '/404', component: _import('errorPage/404'), hidden: true },
   { path: '/401', component: _import('errorPage/401'), hidden: true },
-  {
+  /* {
     path: '',
     component: Layout,
     redirect: 'projectManage',
@@ -47,7 +47,7 @@ export const constantRouterMap = [
       name: 'projectManage',
       meta: { title: 'projectManage', noCache: true }
     }]
-  },
+  },*/
   {
     path: '/dashboard',
     component: Layout,
