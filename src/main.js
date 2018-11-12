@@ -2,11 +2,13 @@ import Vue from 'vue'
 import uploader from 'vue-simple-uploader'
 import axios from 'axios'
 import vueGridLayout from 'vue-grid-layout'
+import scroll from 'vue-seamless-scroll'
 // import SparkMD5 from 'spark-md5'
 Vue.prototype.$axios = axios
 /* eslint-disable */
 Vue.use(uploader)
 Vue.use(vueGridLayout)
+Vue.use(scroll)
 
 import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 

@@ -2,9 +2,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { Message } from 'element-ui'
-/*import { Confirm } from 'element-ui'*/
 import store from '@/store'
-import MessageBox from '../../static/tinymce4.7.5/tinymce.min'
 import { getToken, getRefreshToken, getIp, getPort, getExpire, getExpire2, removeExpire } from '@/utils/auth'
 // create an axios instance
 let ip_set = store.getters.ipconfig
@@ -18,10 +16,7 @@ let timeStamp = getExpire()
 let refreshTimeStamp = getExpire2()
 let qs = require('qs')
 const service = axios.create({
-  /* baseURL: process.env.BASE_API,*/
-  /* baseURL: serviceConfig*/
   baseURL: serviceConfig // api的base_url
-  /* baseURL: "http://192.168.0.107:9090",*/// api的base_url
 
 })
 

@@ -45,7 +45,7 @@ export const constantRouterMap = [
     children: [{
       path: 'boardManage',
       component: _import('boardManage/boardManage'),
-      name: 'boardManage',
+      name: 'boardManage1',
       meta: { title: 'boardManage', noCache: true }
     }]
   },
@@ -428,5 +428,10 @@ export const asyncRouterMap = [
     path: '/boardManage',
     component: Layout,
     children: [{ path: 'boardManage', component: _import('boardManage/boardManage'), name: 'boardManage', meta: { title: '看板管理', icon: 'table', noCache: true }}]
+  },
+  {
+    path: '/messagePush',
+    component: Layout,
+    children: [{ path: 'messagePush', component: _import('messagePush/messagePush'), name: 'messagePush', meta: { title: '消息推送', icon: 'send', noCache: true }}]
   }
 ]
