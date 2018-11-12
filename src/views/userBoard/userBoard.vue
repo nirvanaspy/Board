@@ -1,5 +1,15 @@
 <template>
   <div class="app-container calendar-list-container">
+    <!--消息推送-->
+    <div id="messageBox">
+      <vue-seamless-scroll :data="listData" :class-option="scrollOption" class="seamless-warp">
+        <ul class="item">
+          <li v-for="item in listData">
+            <span class="title" v-text="item.title"></span><span class="date" v-text="item.date"></span>
+          </li>
+        </ul>
+      </vue-seamless-scroll>
+    </div>
     <!--布局容器-->
     <div>
       <div class="component">
@@ -67,6 +77,7 @@
   import mixedChart from '@/views/boardCharts/originMixChart'
   import workshopTitle from '@/views/caption/plantTitle'
   import captionChart from '@/views/caption/plantTitle2'
+  import vueSeamless from 'vue-seamless-scroll'
   import { saveLayoutByBoard, getLayoutByBoard } from '@/api/board'
   import { userBoardsList } from '@/api/userBoard'
 
@@ -86,7 +97,8 @@
       lineChart,
       mixedChart,
       workshopTitle,
-      captionChart
+      captionChart,
+      vueSeamless
     },
     data() {
       return {
@@ -103,7 +115,16 @@
           {id: 1, src: require("../../assets/images/布局1.png"), laytype: "type1"},
           {id: 2, src: require("../../assets/images/布局2.png"), laytype: "type2"},
           {id: 3, src: require("../../assets/images/布局3.png"), laytype: "type3"}
-        ]
+        ],
+        listData: [{
+          'title': '测试滚动消息',
+          'date': '2017-12-16'
+        }],
+        scrollOption: {
+          direction: 0,
+          limitMoveNum: 1,
+          hoverStop: false
+        }
       }
     },
     created() {
@@ -199,6 +220,31 @@
     /*color: #fff;*/
     color: #777;
   }
+  #messageBox {
+    position: absolute;
+    width: 100%;
+    height: 120px;
+    line-height: 60px;
+    z-index: 100;
+    background-color: yellow;
+    color: red;
+    font-size: 40px;
+  }
+  .seamless-warp {
+    /*position: absolute;
+    top: 0;
+    left: 0;*/
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+  }
+  /*.seamless-warp ul.item {
+    width: 580px;
+  }
+  .seamless-warp ul.item li {
+    float: left;
+    margin-right: 10px;
+  }*/
   /*.drag-title {
     margin-top: 20px;
   }*/
