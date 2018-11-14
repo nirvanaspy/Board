@@ -136,6 +136,7 @@
         scrollOption: {
           direction: 0,
           limitMoveNum: 1,
+          step: 1,
           hoverStop: false
         },
         fontFamily: ''
@@ -209,6 +210,8 @@
             }else if(that.webResBody.font === '楷体'){
               that.listData[0].fontFamily = 'KaiTi';
             }
+
+            that.scrollOption.step = that.webResBody.speed;
 
           });
         });
