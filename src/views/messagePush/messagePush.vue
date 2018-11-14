@@ -92,7 +92,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <!--<el-col :span="12">
             <el-form-item label="字幕位置">
               <el-select v-model="mesPosition" placeholder="请选择">
                 <el-option
@@ -103,7 +103,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-          </el-col>
+          </el-col>-->
           <el-col :span="12">
             <el-form-item label="字体属性">
               <el-select v-model="mesFont" placeholder="请选择">
@@ -118,19 +118,19 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="显示时长">
-              <el-input-number v-model="displayTime" :precision="1" :step="0.5" :min="0"></el-input-number>
+              <el-input-number v-model="duration" :precision="1" :step="0.5" :min="0"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="滚动速度">
-              <el-input-number v-model="rollRate" :step="1" :max="10" :min="0"></el-input-number>
+              <el-input-number v-model="speed" :step="1" :max="10" :min="0"></el-input-number>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <!--<el-col :span="12">
             <el-form-item label="滚动次数">
               <el-input-number v-model="rollTime" :step="1" :max="10" :min="0"></el-input-number>
             </el-form-item>
-          </el-col>
+          </el-col>-->
         </el-row>
         <el-row>
           <el-col :span="24">
@@ -139,7 +139,7 @@
                 type="textarea"
                 :rows="4"
                 placeholder="请输入内容"
-                v-model="temp.name">
+                v-model="temp.content">
               </el-input>
             </el-form-item>
           </el-col>
@@ -147,8 +147,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false" style="margin-right: 10px">{{$t('table.cancel')}}</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData" :loading="creDepLoading">{{$t('table.confirm')}}</el-button>
-        <el-button v-else type="primary" @click="updateData" :loading="upDepLoading">{{$t('table.confirm')}}</el-button>
+        <el-button type="primary" @click="savePush" :loading="creDepLoading">{{$t('table.confirm')}}</el-button>
       </div>
     </el-dialog>
 
@@ -156,7 +155,8 @@
 </template>
 
 <script>
-  import { boardsList, createBoard, updateBoard, deleteBoard } from '@/api/board'
+  import { pushMessage } from '@/api/messagePush'
+  import { boardsList, updateBoard, deleteBoard } from '@/api/board'
   import waves from '@/directive/waves' // 水波纹指令
   import Sortable from 'sortablejs'
 
@@ -171,16 +171,16 @@
         directionOptions: [
           {
             value: 'top',
-            label: '上'
+            label: '向上'
           },{
             value: 'bottom',
-            label: '下'
+            label: '向下'
           },{
             value: 'left',
-            label: '左'
+            label: '向左'
           },{
             value: 'right',
-            label: '右'
+            label: '向右'
           }
         ],
         positionOptions: [
@@ -205,11 +205,14 @@
           },{
             value: '宋体',
             label: '宋体'
+          },{
+            value: '楷体',
+            label: '楷体'
           }
         ],
         mesFont: '微软雅黑',
-        displayTime: 1,
-        rollRate: 1,
+        duration: 1,
+        speed: 1,
         rollTime: 1,
         mesDirection: '',
         mesPosition: '',
@@ -234,7 +237,8 @@
           ip: '',
           name: '',
           department: '',
-          type: ''
+          type: '',
+          content: ''
         },
         dialogFormVisible: false,
         dialogStatus: '',
@@ -323,24 +327,39 @@
           this.$refs['dataForm'].clearValidate()
         })
       },
-      createData() {
+      savePush() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.creDepLoading = true
             let formData = new FormData();
 
-            formData.append('ip', this.temp.ip);
-            formData.append('name', this.temp.name);
-            formData.append('department', this.temp.department);
-            formData.append('type', this.temp.type);
+            let ids = this.selectedBoardIds;
+            let direction = this.mesDirection;
+            let font = this.mesFont;
+            let duration = this.duration;
+            let speed = this.speed;
+            let content = this.temp.content;
 
-            createBoard(formData).then(() => {
+            console.log(ids)
+            console.log(direction)
+            console.log(font)
+            console.log(duration)
+            console.log(speed)
+            console.log(content)
+            formData.append('boardIds', ids);
+            formData.append('direction', direction);
+            formData.append('font', font);
+            formData.append('duration', duration);
+            formData.append('speed', speed);
+            formData.append('content', content);
+
+            pushMessage(formData).then(() => {
               this.list.unshift(this.temp)
               this.creDepLoading = false
               this.dialogFormVisible = false
               this.$notify({
                 title: '成功',
-                message: '创建成功',
+                message: '推送成功',
                 type: 'success',
                 duration: 2000
               })
@@ -352,7 +371,7 @@
                 this.errorMessage = error.response.data.message
               }
               this.$notify({
-                title: '创建失败',
+                title: '推送失败',
                 message: this.errorMessage,
                 type: 'error',
                 duration: 2000
@@ -480,6 +499,7 @@
       },
       handleMessage() {
         this.resetTemp()
+        console.log(this.selectedBoardIds)
         this.dialogStatus = 'create'
         this.dialogFormVisible = true
         this.$nextTick(() => {
