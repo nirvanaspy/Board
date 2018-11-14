@@ -5,7 +5,7 @@
       <vue-seamless-scroll :data="listData" :class-option="scrollOption" class="seamless-warp">
         <ul class="item">
           <li v-for="item in listData">
-            <span class="title" v-text="item.title" :style="{'font-family': item.fontFamily}"></span><span class="date" v-text="item.date"></span>
+            <span class="title" v-text="item.title" :style="{'font-family': item.fontFamily}"></span>
           </li>
         </ul>
       </vue-seamless-scroll>
@@ -312,6 +312,9 @@
 </script>
 
 <style scoped>
+  ul {
+    list-style: none;
+  }
   .pan-btn {
     font-size: 12px;
     color: #fff;
