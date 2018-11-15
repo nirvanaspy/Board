@@ -1,11 +1,11 @@
 <template>
-  <div class="app-container calendar-list-container">
+  <div class="">
     <!--消息推送-->
     <div id="messageBox">
       <vue-seamless-scroll :data="listData" :class-option="scrollOption" class="seamless-warp">
         <ul class="item">
-          <li v-for="item in listData">
-            <span class="title" v-text="item.title" :style="{'font-family': item.fontFamily}"></span>
+          <li :style="{'font-family': item.fontFamily}" v-for="item in listData" v-text="item.title">
+            <!--<span class="title" v-text="item.title" :style="{'font-family': item.fontFamily}"></span>-->
           </li>
         </ul>
       </vue-seamless-scroll>
@@ -22,7 +22,7 @@
           :is-resizable="true"
           :useCssTransforms="true"
           :vertical-compact="true"
-          :margin="[10, 10]"
+          :margin="margin"
           :use-css-transforms="true">
           <grid-item v-for="(item,index) in layout"
                      :key="item.i"
@@ -31,6 +31,7 @@
                      :w="item.w"
                      :h="item.h"
                      :i="item.i"
+                     :style="{'border': border}"
                      class="griditem">
             <!--<el-row class="drag-title">
               &lt;!&ndash;<el-col :span="12">新增人员过滤器{   过滤器：所有人，频率：每天   }</el-col>&ndash;&gt;
@@ -62,11 +63,6 @@
       </div>
     </div>
 
-    <div>
-      <span style="font-family: Microsoft YaHei">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</span><br>
-      <span style="font-family: KaiTi">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</span><br>
-      <span style="font-family: Simsun">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</span><br>
-    </div>
     <div id="onlineheartbeatmessages" style="font-family: Microsoft YaHei">
 
     </div>
@@ -86,6 +82,7 @@
   import mixedChart from '@/views/boardCharts/originMixChart'
   import workshopTitle from '@/views/caption/plantTitle'
   import captionChart from '@/views/caption/plantTitle2'
+  import messageAll from '@/views/caption/messageAll'
   import vueSeamless from 'vue-seamless-scroll'
   import {saveLayoutByBoard, getLayoutByBoard} from '@/api/board'
   import {userBoardsList} from '@/api/userBoard'
@@ -110,10 +107,13 @@
       mixedChart,
       workshopTitle,
       captionChart,
-      vueSeamless
+      vueSeamless,
+      messageAll
     },
     data() {
       return {
+        border: '',
+        margin: [0, 0],
         boardId: '',
         layoutDialogVisible: false,
         layouttype: "A",
@@ -134,7 +134,9 @@
           'fontFamily': ''
         }],
         scrollOption: {
-          direction: 0,
+          /*limitMoveNum: 1,
+          hoverStop: false*/
+          direction: 2,
           limitMoveNum: 1,
           step: 1,
           hoverStop: false
@@ -162,6 +164,13 @@
               tempItem.component = ''
               this.layout.push(tempItem)
               if (item.component.length > 0) {
+                if(item.component === 'messageAll'){
+                  this.margin = [0, 0];
+                  this.border = 0;
+                }else {
+                  this.margin = [10, 10];
+                  this.border = '1px solid #ddd;';
+                }
                 item.componentId = item.component + index
               }
             })
@@ -189,135 +198,179 @@
             let resBody2 = resBody.replace(/[\\]/g, '');
             that.webResBody = JSON.parse(resBody2);
             $("#onlineheartbeatmessages").html(resBody);
+
 //debugger;
-            that.listData[0].title = that.webResBody.content;
+            if(that.webResBody.content !== null){
 
-            console.log(that.webResBody.direction)
-            if(that.webResBody.direction === 'bottom'){
-              that.scrollOption.direction = 0
-            }else if(that.webResBody.direction === 'top'){
-              that.scrollOption.direction = 1
-            }else if(that.webResBody.direction === 'left'){
-              that.scrollOption.direction = 2;
-            }else if(that.webResBody.direction === 'right'){
-              that.scrollOption.direction = 3;
+              //document.getElementById("messageBox").style.display = "block";
+
+              /*that.resetScrollMessage();*/
+              console.log(that.webResBody.direction)
+              if (that.webResBody.direction === 'bottom') {
+                that.scrollOption.direction = 0;
+              } else if (that.webResBody.direction === 'top') {
+                that.scrollOption.direction = 1;
+              } else if (that.webResBody.direction === 'left') {
+                that.scrollOption.direction = 2;
+              } else if (that.webResBody.direction === 'right') {
+                that.scrollOption.direction = 3;
+              }
+
+              if (that.webResBody.font === '微软雅黑') {
+                that.listData[0].fontFamily = "Microsoft YaHei";
+              } else if (that.webResBody.font === '宋体') {
+                that.listData[0].fontFamily = 'Simsun';
+              } else if (that.webResBody.font === '楷体') {
+                that.listData[0].fontFamily = 'KaiTi';
+              }
+
+              that.listData[0].title = that.webResBody.content;
+
+
+              that.scrollOption.step = that.webResBody.speed;
+
+              //that.listData[1] = that.listData[0];
             }
-
-            if(that.webResBody.font === '微软雅黑') {
-              that.listData[0].fontFamily = "Microsoft YaHei";
-            }else if(that.webResBody.font === '宋体'){
-              that.listData[0].fontFamily = 'Simsun';
-            }else if(that.webResBody.font === '楷体'){
-              that.listData[0].fontFamily = 'KaiTi';
-            }
-
-            that.scrollOption.step = that.webResBody.speed;
 
           });
         });
       }
+    },
+    computed: {
+      optionLeft () {
+        return {
+          direction: this.scrollOption.direction,
+          limitMoveNum: this.scrollOption.limitMoveNum,
+          step: this.scrollOption.step,
+          hoverStop: false
+        }
+      }
     }
-      /*getIPs(callback){
-    var ip_dups = {};
+    /*getIPs(callback){
+  var ip_dups = {};
 
-    //compatibility for firefox and chrome
-    var RTCPeerConnection = window.RTCPeerConnection
-      || window.mozRTCPeerConnection
-      || window.webkitRTCPeerConnection;
-    var useWebKit = !!window.webkitRTCPeerConnection;
+  //compatibility for firefox and chrome
+  var RTCPeerConnection = window.RTCPeerConnection
+    || window.mozRTCPeerConnection
+    || window.webkitRTCPeerConnection;
+  var useWebKit = !!window.webkitRTCPeerConnection;
 
-    //bypass naive webrtc blocking using an iframe
-    if(!RTCPeerConnection){
-      //NOTE: you need to have an iframe in the page right above the script tag
-      //
-      //<iframe id="iframe" sandbox="allow-same-origin" style="display: none"></iframe>
-      //<script>...getIPs called in here...
-      //
-      var win = iframe.contentWindow;
-      RTCPeerConnection = win.RTCPeerConnection
-        || win.mozRTCPeerConnection
-        || win.webkitRTCPeerConnection;
-      useWebKit = !!win.webkitRTCPeerConnection;
-    }
-
-    //minimal requirements for data connection
-    var mediaConstraints = {
-      optional: [{RtpDataChannels: true}]
-    };
-
-    var servers = {iceServers: [{urls: "stun:stun.services.mozilla.com"}]};
-
-    //construct a new RTCPeerConnection
-    var pc = new RTCPeerConnection(servers, mediaConstraints);
-
-    function handleCandidate(candidate){
-      //match just the IP address
-      var ip_regex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/
-      var ip_addr = ip_regex.exec(candidate)[1];
-
-      //remove duplicates
-      if(ip_dups[ip_addr] === undefined)
-        callback(ip_addr);
-
-      ip_dups[ip_addr] = true;
-    }
-
-    //listen for candidate events
-    pc.onicecandidate = function(ice){
-
-      //skip non-candidate events
-      if(ice.candidate)
-        handleCandidate(ice.candidate.candidate);
-    };
-
-    //create a bogus data channel
-    pc.createDataChannel("");
-
-    //create an offer sdp
-    pc.createOffer(function(result){
-
-      //trigger the stun server request
-      pc.setLocalDescription(result, function(){}, function(){});
-
-    }, function(){});
-
-    //wait for a while to let everything done
-    setTimeout(function(){
-      //read candidate info from local description
-      var lines = pc.localDescription.sdp.split('\n');
-
-      lines.forEach(function(line){
-        if(line.indexOf('a=candidate:') === 0)
-          handleCandidate(line);
-      });
-    }, 1000);
+  //bypass naive webrtc blocking using an iframe
+  if(!RTCPeerConnection){
+    //NOTE: you need to have an iframe in the page right above the script tag
+    //
+    //<iframe id="iframe" sandbox="allow-same-origin" style="display: none"></iframe>
+    //<script>...getIPs called in here...
+    //
+    var win = iframe.contentWindow;
+    RTCPeerConnection = win.RTCPeerConnection
+      || win.mozRTCPeerConnection
+      || win.webkitRTCPeerConnection;
+    useWebKit = !!win.webkitRTCPeerConnection;
   }
 
-  //insert IP addresses into the page
-  getIPs(function(ip){
-    var li = document.createElement("li");
-    li.textContent = ip;
+  //minimal requirements for data connection
+  var mediaConstraints = {
+    optional: [{RtpDataChannels: true}]
+  };
 
-    //local IPs
-    if (ip.match(/^(192\.168\.|169\.254\.|10\.|172\.(1[6-9]|2\d|3[01]))/))
-      document.getElementsByTagName("ul")[0].appendChild(li);
+  var servers = {iceServers: [{urls: "stun:stun.services.mozilla.com"}]};
 
-    //IPv6 addresses
-    else if (ip.match(/^[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7}$/))
-      document.getElementsByTagName("ul")[2].appendChild(li);
+  //construct a new RTCPeerConnection
+  var pc = new RTCPeerConnection(servers, mediaConstraints);
 
-    //assume the rest are public IPs
-    else
-      document.getElementsByTagName("ul")[1].appendChild(li);
-  });
-  }*/
+  function handleCandidate(candidate){
+    //match just the IP address
+    var ip_regex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/
+    var ip_addr = ip_regex.exec(candidate)[1];
+
+    //remove duplicates
+    if(ip_dups[ip_addr] === undefined)
+      callback(ip_addr);
+
+    ip_dups[ip_addr] = true;
+  }
+
+  //listen for candidate events
+  pc.onicecandidate = function(ice){
+
+    //skip non-candidate events
+    if(ice.candidate)
+      handleCandidate(ice.candidate.candidate);
+  };
+
+  //create a bogus data channel
+  pc.createDataChannel("");
+
+  //create an offer sdp
+  pc.createOffer(function(result){
+
+    //trigger the stun server request
+    pc.setLocalDescription(result, function(){}, function(){});
+
+  }, function(){});
+
+  //wait for a while to let everything done
+  setTimeout(function(){
+    //read candidate info from local description
+    var lines = pc.localDescription.sdp.split('\n');
+
+    lines.forEach(function(line){
+      if(line.indexOf('a=candidate:') === 0)
+        handleCandidate(line);
+    });
+  }, 1000);
+}
+
+//insert IP addresses into the page
+getIPs(function(ip){
+  var li = document.createElement("li");
+  li.textContent = ip;
+
+  //local IPs
+  if (ip.match(/^(192\.168\.|169\.254\.|10\.|172\.(1[6-9]|2\d|3[01]))/))
+    document.getElementsByTagName("ul")[0].appendChild(li);
+
+  //IPv6 addresses
+  else if (ip.match(/^[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7}$/))
+    document.getElementsByTagName("ul")[2].appendChild(li);
+
+  //assume the rest are public IPs
+  else
+    document.getElementsByTagName("ul")[1].appendChild(li);
+});
+}*/
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .seamless-warp {
+    overflow: hidden;
+    height: 70px;
+    /*width: 380px;*/
+    width: 1366px;
+    ul.item {
+      width: 1566px;
+      float: right;
+      li {
+        float: right;
+        margin-right: 10px;
+        margin-top: -20px;
+        z-index: 100;
+      }
+    }
+  }
+
   ul {
     list-style: none;
   }
+
+
+  /*.item {
+
+    width: 100%;
+  }*/
+
   .pan-btn {
     font-size: 12px;
     color: #fff;
@@ -385,22 +438,40 @@
   #messageBox {
     position: absolute;
     width: 100%;
-    height: 120px;
-    line-height: 60px;
+    height: 70px;
+    line-height: 50px;
     z-index: 100;
     background-color: red;
     color: yellow;
-    font-size: 40px;
+    font-size: 30px;
+  }
+
+  /*.seamless-warp {
+    !*position: absolute;
+    top: 0;
+    left: 0;*!
+    width: 100%;
+    height: 70px;
+    overflow: hidden;
   }
 
   .seamless-warp {
-    /*position: absolute;
-    top: 0;
-    left: 0;*/
-    width: 100%;
-    height: 120px;
     overflow: hidden;
-  }
+    height: 70px;
+    !*width: 380px;*!
+  }*/
+  /*ul.item {
+    width: 580px;
+  }*/
+
+    /*li {
+      float: left;
+      margin-right: 10px;
+    }
+
+  .title {
+    width: 100%;
+  }*/
 
   /*.seamless-warp ul.item {
     width: 580px;
