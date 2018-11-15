@@ -49,6 +49,7 @@
                     <el-dropdown-item command="mixed">混合图</el-dropdown-item>
                     <el-dropdown-item command="workshopTitle">车间标题</el-dropdown-item>
                     <el-dropdown-item command="caption">车间产量</el-dropdown-item>
+                    <el-dropdown-item command="message">推送消息</el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
               </el-col>
@@ -66,7 +67,7 @@
     <el-dialog title="请选择布局种类" :visible.sync="layoutDialogVisible" width="60%">
       <div class="content">
         <el-row :gutter="10">
-          <el-col :span="8" v-for="(item,index) in layTable" :key="item.id">
+          <el-col :span="12" v-for="(item,index) in layTable" :key="item.id">
             <div class="grid-content bg-purple-light" @click="layView(item)">
               <img v-bind:src="item.src"/>
             </div>
@@ -94,6 +95,7 @@
   import mixedChart from '@/views/boardCharts/originMixChart'
   import workshopTitle from '@/views/caption/plantTitle'
   import captionChart from '@/views/caption/plantTitle2'
+  import messageAll from '@/views/caption/messageAll'
   import { saveLayoutByBoard, getLayoutByBoard } from '@/api/board'
 
   var GridLayout = vueGridLayout.GridLayout;
@@ -112,7 +114,8 @@
       lineChart,
       mixedChart,
       workshopTitle,
-      captionChart
+      captionChart,
+      messageAll
     },
     data() {
       return {
@@ -128,7 +131,8 @@
         layTable:[
           {id: 1, src: require("../../assets/images/布局1.png"), laytype: "type1"},
           {id: 2, src: require("../../assets/images/布局2.png"), laytype: "type2"},
-          {id: 3, src: require("../../assets/images/布局3.png"), laytype: "type3"}
+          {id: 3, src: require("../../assets/images/布局3.png"), laytype: "type3"},
+          {id: 4, src: require("../../assets/images/messageAll.png"), laytype: "type4"}
         ]
       }
     },
@@ -231,6 +235,10 @@
               {"x":3,"y":0,"w":1,"h":3,"i":"C3",component:""},
               {"x":0,"y":3,"w":4,"h":7,"i":"C4",component:""}
             ]
+          }else if(item.laytype=="type4"){
+            this.layout = [
+              {"x":0,"y":0,"w":4,"h":10,"i":"D0",component:""}
+            ]
           }
           this.layoutDialogVisible = false;
         }).catch(() => {
@@ -283,6 +291,11 @@
           item.componentType = 'captionChart'
           item.component = 'captionChart'
           item.componentId = 'captionChart' + index
+        }
+        if (event === 'message') {
+          item.componentType = 'messageAll'
+          item.component = 'messageAll'
+          item.componentId = 'messageAll' + index
         }
         console.log(this.layout)
       },
