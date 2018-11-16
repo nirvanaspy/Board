@@ -1,7 +1,8 @@
 <template>
   <div class="app-container calendar-list-container mesPush">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="名称" v-model="searchQuery">
+      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="名称"
+                v-model="searchQuery">
       </el-input>
       <el-button class="filter-item" style="margin-left: 10px;float:right;" @click="handleMessage" type="success">
         <svg-icon icon-class="send" style="margin-right: 10px;"></svg-icon>
@@ -9,8 +10,9 @@
       </el-button>
     </div>
 
-    <el-table :key='tableKey' :data="listA" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
-              :default-sort = "{prop: 'createTime', order: 'descending'}"
+    <el-table :key='tableKey' :data="listA" v-loading="listLoading" element-loading-text="给我一点时间" border fit
+              highlight-current-row
+              :default-sort="{prop: 'createTime', order: 'descending'}"
               @selection-change="handleSelectionChange"
               style="width: 100%">
       <el-table-column
@@ -144,6 +146,14 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="选择图片" prop="content">
+              <el-button type="primary" disabled="disabled">选择</el-button>
+            </el-form-item>
+
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false" style="margin-right: 10px">{{$t('table.cancel')}}</el-button>
@@ -172,13 +182,13 @@
           {
             value: 'top',
             label: '向上'
-          },{
+          }, {
             value: 'bottom',
             label: '向下'
-          },{
+          }, {
             value: 'left',
             label: '向左'
-          },{
+          }, {
             value: 'right',
             label: '向右'
           }
@@ -187,13 +197,13 @@
           {
             value: 'top',
             label: '上'
-          },{
+          }, {
             value: 'bottom',
             label: '下'
-          },{
+          }, {
             value: 'left',
             label: '左'
-          },{
+          }, {
             value: 'right',
             label: '右'
           }
@@ -202,10 +212,10 @@
           {
             value: '微软雅黑',
             label: '微软雅黑'
-          },{
+          }, {
             value: '宋体',
             label: '宋体'
-          },{
+          }, {
             value: '楷体',
             label: '楷体'
           }
@@ -223,13 +233,13 @@
         listLoading: true,
         listQuery: {
           page: 0,
-          size:20,
+          size: 20,
           limit: 5,
           tagname: ''
         },
         total: null,
-        pagesize:10,//每页的数据条数
-        currentPage:1,//默认开始页面
+        pagesize: 10,//每页的数据条数
+        currentPage: 1,//默认开始页面
         sortable: null,
         newList: [],
         temp: {
@@ -249,15 +259,15 @@
         dialogPvVisible: false,
         pvData: [],
         rules: {
-          type: [{ required: true, message: 'type is required', trigger: 'change' }],
-          timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
-          title: [{ required: true, message: 'title is required', trigger: 'blur' }]
+          type: [{required: true, message: 'type is required', trigger: 'change'}],
+          timestamp: [{type: 'date', required: true, message: 'timestamp is required', trigger: 'change'}],
+          title: [{required: true, message: 'title is required', trigger: 'blur'}]
         },
         deployRules: {
-          ip: [{ required: true, message: '请输入IP', trigger: 'blur' }],
-          name: [{ required: true, message: '请输入看板名称', trigger: 'blur' }],
-          department: [{ required: true, message: '请输入部门', trigger: 'blur' }],
-          type: [{ required: true, message: '请输入类型', trigger: 'blur' }]
+          ip: [{required: true, message: '请输入IP', trigger: 'blur'}],
+          name: [{required: true, message: '请输入看板名称', trigger: 'blur'}],
+          department: [{required: true, message: '请输入部门', trigger: 'blur'}],
+          type: [{required: true, message: '请输入类型', trigger: 'blur'}]
         },
         downloadLoading: false,
         creDepLoading: false,
@@ -367,7 +377,7 @@
             }).catch((error) => {
               this.errorMessage = '操作失败！'
               this.creDepLoading = false
-              if(error.response.data.message){
+              if (error.response.data.message) {
                 this.errorMessage = error.response.data.message
               }
               this.$notify({
@@ -416,10 +426,10 @@
                 duration: 2000
               })
               this.getList()
-            }).catch((error) =>{
+            }).catch((error) => {
               this.upDepLoading = false
               this.errorMessage = '操作失败！'
-              if(error.response.data.message){
+              if (error.response.data.message) {
                 this.errorMessage = error.response.data.message
               }
               this.$notify({
@@ -437,7 +447,7 @@
         const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
         this.sortable = Sortable.create(el, {
           ghostClass: 'sortable-ghost', // Class name for the drop placeholder,
-          setData: function(dataTransfer) {
+          setData: function (dataTransfer) {
             dataTransfer.setData('Text', '')
             // to avoid Firefox bug
             // Detail see : https://github.com/RubaXa/Sortable/issues/1012
@@ -518,10 +528,11 @@
   }
 </script>
 <style scoped>
-  .mesPush .el-select{
+  .mesPush .el-select {
     width: 100%;
   }
-  .mesPush .el-input-number{
+
+  .mesPush .el-input-number {
     width: 100%;
   }
 </style>
