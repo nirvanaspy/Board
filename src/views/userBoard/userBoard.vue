@@ -207,7 +207,7 @@
             let resBody = response.body;
             let resBody2 = resBody.replace(/[\\]/g, '');
             that.webResBody = JSON.parse(resBody2);
-            $("#onlineheartbeatmessages").html(resBody);
+           // $("#onlineheartbeatmessages").html(resBody);
 
 //debugger;
             if(that.webResBody.content !== null){
@@ -238,6 +238,14 @@
               that.scrollOption.step = that.webResBody.speed;
 
               //that.listData[1] = that.listData[0];
+            }
+
+          });
+
+          stompClient.subscribe('/refresh/' + that.IP, function (response) {
+            let resBody = response.body;
+            if(resBody){
+              window.location.reload()
             }
 
           });
