@@ -12,6 +12,13 @@ export function boardsList(listQuery) {
   })
 }
 
+export function getIPByBoard() {
+  return request({
+    url: '/boards/IP',
+    method: 'get'
+  })
+}
+
 export function createBoard(data) {
   return request({
     url: 'boards/boards',

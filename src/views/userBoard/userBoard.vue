@@ -84,8 +84,8 @@
   import captionChart from '@/views/caption/plantTitle2'
   import messageAll from '@/views/caption/messageAll'
   import vueSeamless from 'vue-seamless-scroll'
-  import {saveLayoutByBoard, getLayoutByBoard} from '@/api/board'
-  import {userBoardsList} from '@/api/userBoard'
+  import { saveLayoutByBoard, getLayoutByBoard, getIPByBoard } from '@/api/board'
+  import { userBoardsList } from '@/api/userBoard'
   import service from '@/utils/request'
   import Stomp from 'stompjs'
   import SockJS from 'sockjs-client'
@@ -142,13 +142,14 @@
           step: 1,
           hoverStop: false
         },
-        fontFamily: ''
+        fontFamily: '',
+        IP: ''
       }
     },
     created() {
       this.getUserBoard()
+      this.getIP()
       this.getMessage()
-
     },
     mounted() {
       this.$nextTick(() => {
@@ -188,13 +189,21 @@
         })
       },
 
+      getIP() {
+        getIPByBoard().then((res) => {
+            this.IP = res.data.data
+        })
+      },
+
       getMessage() {
         let url = service.defaults.baseURL + '/board-web-socket';
         let socket = new SockJS(url);
         let stompClient = Stomp.over(socket);
         let that = this;
         stompClient.connect({}, function (frame) {
-          stompClient.subscribe('/push-messages/192.168.31.134', function (response) {
+          console.log("hhhhh")
+          console.log(that.IP)
+          stompClient.subscribe('/push-messages/' + that.IP, function (response) {
             let resBody = response.body;
             let resBody2 = resBody.replace(/[\\]/g, '');
             that.webResBody = JSON.parse(resBody2);
