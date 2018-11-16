@@ -63,9 +63,9 @@
       </div>
     </div>
 
-    <div id="onlineheartbeatmessages" style="font-family: Microsoft YaHei">
+    <!--<div id="onlineheartbeatmessages" style="font-family: Microsoft YaHei">
 
-    </div>
+    </div>-->
   </div>
 </template>
 
