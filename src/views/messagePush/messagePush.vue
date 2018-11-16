@@ -79,7 +79,7 @@
     </el-pagination>
 
     <!--设置推送内容-->
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="40%">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="50%">
       <el-form ref="dataForm" :model="temp" label-width="100px" style='width: 80%; margin:0 auto;'>
         <el-row>
           <el-col :span="12">
@@ -120,7 +120,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="显示时长">
-              <el-input-number v-model="duration" :precision="1" :step="0.5" :min="0"></el-input-number>
+              <el-input-number v-model="duration" :precision="1" :step="0.1" :min="0"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -221,7 +221,7 @@
           }
         ],
         mesFont: '微软雅黑',
-        duration: 1,
+        duration: 0.1,
         speed: 1,
         rollTime: 1,
         mesDirection: '',
