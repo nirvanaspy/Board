@@ -211,6 +211,7 @@
 
 //debugger;
             if(that.webResBody.content !== null){
+
               that.showMesBox = true
               console.log(document.getElementById("messageBox"));
               console.log(that.webResBody.direction)
@@ -237,7 +238,13 @@
 
               that.scrollOption.step = that.webResBody.speed;
 
-              //that.listData[1] = that.listData[0];
+              let timeOut = that.webResBody.duration * 60 * 60 * 1000;
+
+              // let timeOut = 10000;
+              setTimeout(() => {
+                that.showMesBox = false
+                console.log(that.showMesBox)
+              },timeOut)
             }
 
           });
