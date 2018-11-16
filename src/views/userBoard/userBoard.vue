@@ -1,9 +1,9 @@
 <template>
   <div class="">
     <!--消息推送-->
-    <div id="messageBox">
-      <vue-seamless-scroll :data="listData" :class-option="scrollOption" class="seamless-warp">
-        <ul class="item">
+    <div id="messageBox" v-if="showMesBox">
+      <vue-seamless-scroll :data="listData" :class-option="scrollOption" class="seamless-warp" id="scrollComp">
+        <ul class="item" id="scrollUl">
           <li :style="{'font-family': item.fontFamily}" v-for="item in listData" v-text="item.title">
             <!--<span class="title" v-text="item.title" :style="{'font-family': item.fontFamily}"></span>-->
           </li>
@@ -112,6 +112,7 @@
     },
     data() {
       return {
+        showMesBox: false,
         border: '',
         margin: [0, 0],
         boardId: '',
@@ -201,10 +202,8 @@
 
 //debugger;
             if(that.webResBody.content !== null){
-
-              //document.getElementById("messageBox").style.display = "block";
-
-              /*that.resetScrollMessage();*/
+              that.showMesBox = true
+              console.log(document.getElementById("messageBox"));
               console.log(that.webResBody.direction)
               if (that.webResBody.direction === 'bottom') {
                 that.scrollOption.direction = 0;
@@ -234,7 +233,7 @@
 
           });
         });
-      }
+      },
     },
     computed: {
       optionLeft () {
@@ -356,7 +355,7 @@ getIPs(function(ip){
         float: right;
         margin-right: 10px;
         margin-top: -20px;
-        z-index: 100;
+        z-index: 1000;
       }
     }
   }
