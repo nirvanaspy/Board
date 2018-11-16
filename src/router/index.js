@@ -418,12 +418,12 @@ export const asyncRouterMap = [
     path: '/plantTitle2',
     component: Layout,
     children: [{ path: 'index', component: _import('caption/plantTitle2'), name: 'plantTitle2', meta: { title: '标题2', icon: 'components1' }}]
-  },*/
+  },
   {
     path: '/messageAll',
     component: Layout,
     children: [{ path: 'index', component: _import('caption/messageAll'), name: 'messageAll', meta: { title: '标题3', icon: 'components1' }}]
-  },
+  },*/
   {
     path: '/gridLayout',
     component: Layout,
