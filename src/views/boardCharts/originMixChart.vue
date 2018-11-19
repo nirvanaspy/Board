@@ -5,9 +5,11 @@
 <script>
   /*eslint-disable*/
   import echarts from 'echarts'
+  import resize from './resize'
 
   export default {
     name: "mix-chart",
+    mixins: [resize],
     props: {
       id: {
         type: String,
@@ -40,11 +42,19 @@
     },
     mounted() {
       this.initChart()
+      this.chart.resize()
+    },
+    beforeDestroy() {
+      if (!this.chart) {
+        return
+      }
+      this.chart.dispose()
+      this.chart = null
     },
     methods: {
       initChart() {
         // 基于准备好的dom，初始化echarts实例
-        let myChart = echarts.init(document.getElementById(this.id), 'dark');
+       this.chart = echarts.init(document.getElementById(this.id), 'dark');
 
         let option = {
           tooltip: {
@@ -119,7 +129,7 @@
         };
 
         // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
+        this.chart.setOption(option);
       }
 
     }

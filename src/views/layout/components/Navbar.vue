@@ -58,7 +58,7 @@
               <span>首页</span>
             </el-dropdown-item>
           </router-link>
-          <router-link to="/projectManage">
+          <!--<router-link to="/projectManage">
             <el-dropdown-item divided>
               <span>项目管理</span>
             </el-dropdown-item>
@@ -68,7 +68,7 @@
               <router-link to="/user_manage">用户管理</router-link>
             </span>
             <span v-else @click="handleModifyPassword" style="display:block;">修改密码</span>
-          </el-dropdown-item>
+          </el-dropdown-item>-->
           <el-dropdown-item divided>
             <span @click="logout" style="display:block;">{{$t('navbar.logOut')}}</span>
           </el-dropdown-item>

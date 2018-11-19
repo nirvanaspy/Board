@@ -36,7 +36,7 @@ export const constantRouterMap = [
   { path: '/404', component: _import('errorPage/404'), hidden: true },
   { path: '/401', component: _import('errorPage/401'), hidden: true },
   { path: '/userBoard', component: _import('userBoard/userBoard'), hidden: true },
-
+  { path: '/userBoard2', component: _import('userBoard/userBoard2'), hidden: true },
   {
     path: '',
     component: Layout,
@@ -266,7 +266,7 @@ export const asyncRouterMap = [
 
 //  以上都不用
   { path: '*', redirect: '/404', hidden: true },
-  {
+  /* {
     path: '/components',
     component: Layout,
     children: [{ path: 'index', component: _import('components/index'), name: 'components', meta: { title: 'components', icon: 'components1' }}]
@@ -281,13 +281,13 @@ export const asyncRouterMap = [
     path: '/device',
     component: Layout,
     children: [{ path: 'device', component: _import('device/device'), name: 'device', meta: { title: 'device', icon: 'computer' }}]
-  },
+  },*/
   /* {
     path: '/scan',
     component: Layout,
     children: [{ path: 'index', component: _import('scan/index'), name: 'scan', meta: { title: 'scan', icon: 'scan2' }}]
   },*/
-  {
+  /* {
     path: '/softPackage',
     component: Layout,
     hidden: true,
@@ -320,7 +320,7 @@ export const asyncRouterMap = [
     component: Layout,
     hidden: true,
     children: [{ path: 'deployDesignNode/:id', component: _import('deployDesignNode/designNode'), name: 'designNode', meta: { title: 'designNode', icon: 'example' }}]
-  },
+  },*/
   /* {
     path: '/usermanage',
     component: Layout,
@@ -330,7 +330,7 @@ export const asyncRouterMap = [
     },
     children: [{ path: 'index', component: _import('usermanage/index'), name: 'usermanage', meta: { title: 'usermanage', icon: 'peoples' }}]
   },*/
-  {
+  /* {
     path: '/project',
     component: Layout,
     hidden: true,
@@ -370,14 +370,14 @@ export const asyncRouterMap = [
     component: Layout,
     hidden: true,
     children: [{ path: 'newfiles/:id', component: _import('fileManager/index'), name: 'files', meta: { title: 'files', icon: 'table' }}]
-  },
+  },*/
   // {
   //   path: '/monitor',
   //   component: Layout,
   //   hidden: true,
   //   children: [{ path: 'monitor/:id', component: _import('monitor/monitor'), name: 'monitor', meta: { title: 'monitor', icon: 'table' }}]
   // },
-  {
+  /* {
     path: '/monitor1',
     component: Layout,
     hidden: true,
@@ -420,8 +420,14 @@ export const asyncRouterMap = [
     children: [{ path: 'index', component: _import('caption/plantTitle2'), name: 'plantTitle2', meta: { title: '标题2', icon: 'components1' }}]
   },
   {
+    path: '/messageAll',
+    component: Layout,
+    children: [{ path: 'index', component: _import('caption/messageAll'), name: 'messageAll', meta: { title: '标题3', icon: 'components1' }}]
+  },*/
+  {
     path: '/gridLayout',
     component: Layout,
+    hidden: true,
     children: [{ path: 'gridLayout/:id', component: _import('gridLayout/gridLayout'), name: 'gridLayout', meta: { title: 'gridLayout', icon: 'table', noCache: true }}]
   },
   {

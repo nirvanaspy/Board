@@ -19,6 +19,8 @@
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.name}}</span>
         </template>
       </el-table-column>
+
+
       <el-table-column align="left" label="部门" min-width="200">
         <template slot-scope="scope">
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.department}}</span>
@@ -77,12 +79,36 @@
         <el-form-item label="名称" prop="name">
           <el-input v-model="temp.name"></el-input>
         </el-form-item>
-        <el-form-item label="部门" prop="department">
+        <!--<el-form-item label="部门" prop="department">
           <el-input v-model="temp.department"></el-input>
         </el-form-item>
         <el-form-item label="类型" prop="type">
           <el-input v-model="temp.type"></el-input>
-        </el-form-item>
+        </el-form-item>-->
+        <el-col :span="12">
+          <el-form-item label="部门">
+            <el-select v-model="department" placeholder="请选择">
+              <el-option
+                v-for="item in departments"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="类型">
+            <el-select v-model="type" placeholder="请选择">
+              <el-option
+                v-for="item in types"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false" style="margin-right: 10px">{{$t('table.cancel')}}</el-button>
@@ -107,6 +133,32 @@
     },
     data() {
       return {
+        department: '',
+        type: '',
+        departments: [
+          {
+            value: '办公室',
+            label: '办公室'
+          },{
+            value: '研发部',
+            label: '研发部'
+          },{
+            value: '装备部',
+            label: '装备部'
+          }
+        ],
+        types: [
+          {
+            value: '电视',
+            label: '电视'
+          },{
+            value: '平板电脑',
+            label: '平板电脑'
+          },{
+            value: '手机',
+            label: '手机'
+          }
+        ],
         selectedId: '',
         tableKey: 0,
         list: [],
@@ -224,8 +276,10 @@
 
             formData.append('ip', this.temp.ip);
             formData.append('name', this.temp.name);
-            formData.append('department', this.temp.department);
-            formData.append('type', this.temp.type);
+            /*formData.append('department', this.temp.department);
+            formData.append('type', this.temp.type);*/
+            formData.append('department', this.department);
+            formData.append('type', this.type);
 
             createBoard(formData).then(() => {
               this.list.unshift(this.temp)
@@ -273,8 +327,8 @@
             let data = {
               'ip': this.temp.ip,
               'name': this.temp.name,
-              'department': this.temp.department,
-              'type': this.temp.type
+              'department': this.department,
+              'type': this.type
             };
 
             const id = this.selectedId;
