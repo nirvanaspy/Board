@@ -69,7 +69,9 @@ export default {
     files: '组件文件',
     monitor: '在线监控',
     componentHistory: '组件历史版本',
-    designNode: '部署设计节点'
+    designNode: '部署设计节点',
+    boardManage: '看板管理',
+    messagePush: '消息推送'
   },
   navbar: {
     logOut: '退出登录',
