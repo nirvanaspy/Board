@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container calendar-list-container">
+  <div class="app-container calendar-list-container boardManage">
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="名称" v-model="searchQuery">
       </el-input>
@@ -85,30 +85,32 @@
         <el-form-item label="类型" prop="type">
           <el-input v-model="temp.type"></el-input>
         </el-form-item>-->
-        <el-col :span="12">
-          <el-form-item label="部门">
-            <el-select v-model="department" placeholder="请选择">
-              <el-option
-                v-for="item in departments"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="类型">
-            <el-select v-model="type" placeholder="请选择">
-              <el-option
-                v-for="item in types"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="部门">
+              <el-select v-model="department" placeholder="请选择">
+                <el-option
+                  v-for="item in departments"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="类型">
+              <el-select v-model="type" placeholder="请选择">
+                <el-option
+                  v-for="item in types"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false" style="margin-right: 10px">{{$t('table.cancel')}}</el-button>
@@ -431,5 +433,10 @@
   }
 </script>
 <style scoped>
-
+  .boardManage .el-input  {
+    width: 100%;
+  }
+  .boardManage .el-select  {
+    width: 100%;
+  }
 </style>
