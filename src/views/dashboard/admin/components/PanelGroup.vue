@@ -1,39 +1,39 @@
 <template>
   <el-row class="panel-group" :gutter="40">
     <el-col :xs="16" :sm="16" :lg="8" class="card-panel-col">
-      <router-link to="/components/index">
+      <router-link to="/">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-components1">
             <svg-icon icon-class="components1" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
-            <div class="card-panel-text">组件</div>
+            <div class="card-panel-text">项目xx</div>
             <count-to class="card-panel-num" :startVal="0" :endVal="compCounts" :duration="1600"></count-to>
           </div>
         </div>
       </router-link>
     </el-col>
     <el-col :xs="16" :sm="16" :lg="8" class="card-panel-col">
-      <router-link to="/device/device">
+      <router-link to="/">
         <div class='card-panel'>
           <div class="card-panel-icon-wrapper icon-computer">
             <svg-icon icon-class="computer" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
-            <div class="card-panel-text">设备</div>
+            <div class="card-panel-text">项目xx</div>
             <count-to class="card-panel-num" :startVal="0" :endVal="deviceCounts" :duration="1600"></count-to>
           </div>
         </div>
       </router-link>
     </el-col>
     <el-col :xs="16" :sm="16" :lg="8" class="card-panel-col">
-      <router-link to="/deployPlan/deployPlan">
+      <router-link to="/">
         <div class="card-panel">
           <div class="card-panel-icon-wrapper icon-money">
             <svg-icon icon-class="example" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
-            <div class="card-panel-text">部署设计</div>
+            <div class="card-panel-text">项目xx</div>
             <count-to class="card-panel-num" :startVal="0" :endVal="designCounts" :duration="1600"></count-to>
           </div>
         </div>
@@ -60,7 +60,7 @@ export default {
   },
   created() {
     this.proId = this.$store.getters.projectId
-    this.initCounts(this.proId)
+    // this.initCounts(this.proId)
   },
   methods: {
     initCounts(id) {

@@ -11,42 +11,6 @@
         <screenfull class="screenfull right-menu-item"></screenfull>
       </el-tooltip>
 
-      <span style="font-weight: 400 !important;color: #97a8be;line-height: 50px;position: relative;top: -13px;">
-          {{selectedProName}}
-      </span>
-
-
-      <!--<lang-select class="international right-menu-item"></lang-select>
-      <el-tooltip effect="dark" :content="$t('navbar.theme')" placement="bottom">
-        <theme-picker class="theme-switch right-menu-item"></theme-picker>
-      </el-tooltip>-->
-
-      <!--<el-dropdown class="avatar-container right-menu-item" trigger="click">
-        <div class="component-item proImg">
-          <pan-thumb class="proImg" width="40px" height="40px" image="https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191">
-            项目
-          </pan-thumb>
-          <i class="el-icon-caret-bottom proIcon"></i>
-        </div>
-        <el-dropdown-menu slot="dropdown">
-          <el-select
-            @focus="onFocus"
-            v-model="selected"
-            filterable
-            remote
-            allow-create
-            default-first-option
-            placeholder="选择或创建项目"
-            @change="changePro">
-            <el-option
-              v-for="item in list"
-              :key="item.name"
-              :value="item.name">
-            </el-option>
-          </el-select>
-        </el-dropdown-menu>
-      </el-dropdown>-->
-
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
           <img class="user-avatar" src="./2.jpg">
@@ -58,17 +22,6 @@
               <span>首页</span>
             </el-dropdown-item>
           </router-link>
-          <!--<router-link to="/projectManage">
-            <el-dropdown-item divided>
-              <span>项目管理</span>
-            </el-dropdown-item>
-          </router-link>
-          <el-dropdown-item divided>
-            <span v-if="role === 'admin'" style="display:block;">
-              <router-link to="/user_manage">用户管理</router-link>
-            </span>
-            <span v-else @click="handleModifyPassword" style="display:block;">修改密码</span>
-          </el-dropdown-item>-->
           <el-dropdown-item divided>
             <span @click="logout" style="display:block;">{{$t('navbar.logOut')}}</span>
           </el-dropdown-item>
@@ -126,23 +79,6 @@
       ThemePicker
     },
     data() {
-      /*const validatePassword = (rule, value, callback) => {
-        if (value.length < 6) {
-          callback(new Error('请输入正确的密码,至少六位！'))
-        } else {
-          callback()
-        }
-      }
-
-      const validatePasswordAgain = (rule, value, callback) => {
-        if (value.length < 6) {
-          callback(new Error('请输入正确的密码,至少六位！'))
-        } else if(this.form.passwordAgain !== this.form.passwordNew) {
-          callback(new Error('两次密码输入不一致，请再次输入新密码！'))
-        } else {
-          callback()
-        }
-      }*/
       const validatePassword = (rule, value, callback) => {
         if (!isvalidPwd(value)) {
           callback(new Error('密码必须是6-16位数字和字母的组合！'))
@@ -217,20 +153,8 @@
       this.userData.username = this.getCookie('username')
       this.userData.password = this.getCookie('password')
       this.userId = this.getCookie('userId')
-      this.selectedProName = decodeURI(this.getCookie('projectName'))
-      //this.getList()
     },
     computed: {
-      listenProLength() {
-        return this.$store.state.app.projectNum
-      },
-      listenProExist(){
-        return this.$store.state.app.projectExist
-
-      },
-      listenProName () {
-        return this.getCookie('projectName')
-      },
       ...mapGetters([
         'sidebar',
         'name',
@@ -239,15 +163,6 @@
       ])
     },
     watch: {
-      listenProLength: function(a,b) {
-        this.getList()
-      },
-      listenProExist: function(a,b) {
-        this.getList()
-      },
-      listenProName: function(a,b) {
-        this.selectedProName =  this.getCookie('projectName')
-      }
     },
     methods: {
       onFocus() {
@@ -297,62 +212,6 @@
           }
 
         })
-      },
-      //下拉框选择部署设计
-      changePro: function () {
-        this.proName = this.selected;
-        //alert(this.proId);
-        //不存在则创建项目
-        let isReal = false;
-        let projectId = '';
-        let projectName = ''
-        for(let i=0;i<this.list.length;i++){
-          if(this.proName == this.list[i].name){
-            isReal = true;
-            projectId = this.list[i].id;
-            projectName = this.list[i].name
-            console.log(projectId);
-            let expireDays = 30;
-            this.selectedProName = this.list[i].name
-            this.setCookie('projectId', projectId, expireDays);
-            this.setCookie('projectName',projectName)
-            this.setProjectId(projectId)
-            break;
-          }
-        }
-        console.log("是否存在");
-        console.log(isReal);
-        if(!isReal){
-          alert("hhhhh");
-          let qs = require('qs');
-          let data = {
-            'name': this.proName,
-            'description': ''
-          };
-          let proData = qs.stringify(data);
-          createProject(this.userData, proData).then(() => {
-            this.list.unshift(this.temp)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '创建成功',
-              type: 'success',
-              duration: 2000
-            })
-            this.selected = ''
-            this.getList()
-
-            this.setProjectNum(this.projectLength);
-          })
-
-        }else {
-          console.log("下拉改变--------");
-          console.log(this.projectExist);
-          this.getList();
-          this.setProjectExist(this.projectExist);
-
-        }
-
       },
       toggleSideBar() {
         this.$store.dispatch('toggleSideBar')
