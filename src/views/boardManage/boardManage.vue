@@ -125,7 +125,6 @@
 <script>
   import { boardsList, createBoard, updateBoard, deleteBoard } from '@/api/board'
   import waves from '@/directive/waves' // 水波纹指令
-  import Sortable from 'sortablejs'
 
   /* eslint-disable */
   export default {
@@ -222,7 +221,6 @@
           this.list = response.data.data.content
           this.total = response.data.total
           this.listLoading = false
-          this.listLength = response.data.data.length
           this.total = response.data.data.totalElements
         })
       },
@@ -240,26 +238,12 @@
         this.currentPage = val
         this.getList()
       },
-      handleModifyStatus(row, status) {
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        })
-        row.status = status
-      },
       resetTemp() {
         this.temp = {
           ip: '',
           name: '',
           department: '',
           type: ''
-        }
-      },
-      resetBaseLineTemp() {
-        this.baselineTemp = {
-          id: '',
-          name: '',
-          description: ''
         }
       },
       handleCreate() {
@@ -360,25 +344,6 @@
               })
             })
 
-          }
-        })
-      },
-      setSort() {
-        const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
-        this.sortable = Sortable.create(el, {
-          ghostClass: 'sortable-ghost', // Class name for the drop placeholder,
-          setData: function(dataTransfer) {
-            dataTransfer.setData('Text', '')
-            // to avoid Firefox bug
-            // Detail see : https://github.com/RubaXa/Sortable/issues/1012
-          },
-          onEnd: evt => {
-            const targetRow = this.list.splice(evt.oldIndex, 1)[0]
-            this.list.splice(evt.newIndex, 0, targetRow)
-
-            // for show the changes, you can delete in you code
-            const tempIndex = this.newList.splice(evt.oldIndex, 1)[0]
-            this.newList.splice(evt.newIndex, 0, tempIndex)
           }
         })
       },
