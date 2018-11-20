@@ -44,26 +44,6 @@
           <span>{{scope.row.createTime}}</span>
         </template>
       </el-table-column>
-      <!--<el-table-column align="center" :label="$t('table.actions')" width="200">
-        <template slot-scope="scope">
-          <el-dropdown trigger="click" v-if="!scope.row.deleted">
-            <span class="el-dropdown-link" v-if="!scope.row.virtual">
-              <el-button type="success" plain>更多操作</el-button>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <span style="display:inline-block;padding:0 10px;" @click="handleUpdate(scope.row)">编辑</span>
-              </el-dropdown-item>
-              <el-dropdown-item divided>
-                <span style="display:inline-block;padding:0 10px;" @click="handleDelete(scope.row)">删除</span>
-              </el-dropdown-item>
-              <el-dropdown-item divided>
-                <span style="display:inline-block;padding:0 10px;" @click="handleLayout(scope.row)">看板布局</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </template>
-      </el-table-column>-->
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -168,7 +148,6 @@
   import { pushMessage } from '@/api/messagePush'
   import { boardsList, updateBoard, deleteBoard } from '@/api/board'
   import waves from '@/directive/waves' // 水波纹指令
-  import Sortable from 'sortablejs'
 
   /* eslint-disable */
   export default {
@@ -307,26 +286,12 @@
         this.currentPage = val
         this.getList()
       },
-      handleModifyStatus(row, status) {
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        })
-        row.status = status
-      },
       resetTemp() {
         this.temp = {
           ip: '',
           name: '',
           department: '',
           type: ''
-        }
-      },
-      resetBaseLineTemp() {
-        this.baselineTemp = {
-          id: '',
-          name: '',
-          description: ''
         }
       },
       handleCreate() {
@@ -350,12 +315,6 @@
             let speed = this.speed;
             let content = this.temp.content;
 
-            console.log(ids)
-            console.log(direction)
-            console.log(font)
-            console.log(duration)
-            console.log(speed)
-            console.log(content)
             formData.append('boardIds', ids);
             formData.append('direction', direction);
             formData.append('font', font);
@@ -392,7 +351,6 @@
       },
       handleUpdate(row) {
         this.selectedId = row.id;
-
         this.temp = Object.assign({}, row) // copy obj
         this.temp.timestamp = new Date(this.temp.timestamp)
         this.dialogStatus = 'update'
@@ -440,25 +398,6 @@
               })
             })
 
-          }
-        })
-      },
-      setSort() {
-        const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
-        this.sortable = Sortable.create(el, {
-          ghostClass: 'sortable-ghost', // Class name for the drop placeholder,
-          setData: function (dataTransfer) {
-            dataTransfer.setData('Text', '')
-            // to avoid Firefox bug
-            // Detail see : https://github.com/RubaXa/Sortable/issues/1012
-          },
-          onEnd: evt => {
-            const targetRow = this.list.splice(evt.oldIndex, 1)[0]
-            this.list.splice(evt.newIndex, 0, targetRow)
-
-            // for show the changes, you can delete in you code
-            const tempIndex = this.newList.splice(evt.oldIndex, 1)[0]
-            this.newList.splice(evt.newIndex, 0, tempIndex)
           }
         })
       },
@@ -510,6 +449,14 @@
       handleMessage() {
         this.resetTemp()
         console.log(this.selectedBoardIds)
+        if(this.selectedBoardIds.length == 0) {
+          this.$message({
+            showClose: true,
+            message: '请先选择看板！',
+            type: 'warning'
+          })
+          return
+        }
         this.dialogStatus = 'create'
         this.dialogFormVisible = true
         this.$nextTick(() => {
