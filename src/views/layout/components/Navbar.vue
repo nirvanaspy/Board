@@ -65,7 +65,7 @@
   import Screenfull from '@/components/Screenfull'
   import LangSelect from '@/components/LangSelect'
   import ThemePicker from '@/components/ThemePicker'
-  import { projectList, createProject } from '@/api/project'
+  import { projectList } from '@/api/project'
   import { updateUser } from '@/api/getUsers'
   /* eslint-disable */
   export default {
